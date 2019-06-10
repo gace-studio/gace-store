@@ -1,12 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
-import { Media } from 'src/media/media.entity';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, Unique } from 'typeorm';
+import { Media } from '../media/media.entity';
 
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @PrimaryGeneratedColumn()
   sku: string;
 
   @Column({
@@ -14,18 +13,18 @@ export class Product {
   })
   name: string;
 
-  @Column({
+  @Column('float', {
     nullable: false,
   })
   price: number;
 
-  @Column()
+  @Column('float')
   capitalCost: number;
 
-  @Column()
+  @Column('int')
   stock: number;
 
-  @Column({
+  @Column('int', {
     default: 0,
   })
   status: number;

@@ -12,7 +12,7 @@ export class Media {
   @Column()
   path: string;
 
-  @Column({
+  @Column('int', {
     default: 0,
   })
   type: number;

@@ -1,11 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import * as request from 'request';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './product.entity';
 import { Repository } from 'typeorm';
+import { CreateProductDto } from './dto/create-product.dto';
+import { plainToClass } from 'class-transformer';
+import { UpdateProductDto } from './dto/update-product.dto';
 @Injectable()
 export class ProductService {
-
   constructor(
     @InjectRepository(Product) private readonly productRepository: Repository<Product>,
   ) {}
@@ -84,12 +86,19 @@ export class ProductService {
     return await this.productRepository.find();
   }
 
-  async create(product: Product) {
+  async create(createProductDto: CreateProductDto) {
+    const product = plainToClass(Product, createProductDto);
     return await this.productRepository.save(product);
   }
 
-  // async update(id: string) {
-  //   return await this.productRepository.update
-  // }
+  async update(updateDProductDto: UpdateProductDto) {
+    let product = await this.productRepository.findOne(updateDProductDto.id);
+    product = Object.assign(product, updateDProductDto);
+    return await this.productRepository.save(product);
+  }
+
+  async delete(id: number) {
+    return await this.productRepository.delete(id);
+  }
 
 }
