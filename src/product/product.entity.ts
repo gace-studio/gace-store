@@ -1,6 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, Unique } from 'typeorm';
-import { Media } from '../media/media.entity';
-
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
@@ -22,13 +20,15 @@ export class Product {
   capitalCost: number;
 
   @Column('int')
-  stock: number;
+  inStock: number;
 
   @Column('int', {
     default: 0,
   })
   status: number;
 
-  @ManyToMany(type => Media, media => media.products)
-  images: Media[];
+  @Column({
+    type: 'simple-array',
+  })
+  images: string[];
 }

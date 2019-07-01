@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable} from 'typeorm';
-import { Product } from '../product/product.entity';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Media {
@@ -16,8 +15,4 @@ export class Media {
     default: 0,
   })
   type: number;
-
-  @ManyToMany(type => Product, product => product.images)
-  @JoinTable()
-  products: Product[];
 }
