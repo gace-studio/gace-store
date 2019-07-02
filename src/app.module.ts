@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ProductModule } from './product/product.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MediaModule } from './media/media.module';
 import { join } from 'path';
+import { ProductModule } from './product/product.module';
+import { MediaModule } from './media/media.module';
 import { OrderModule } from './order/order.module';
+import { CustomerModule } from './customer/customer.module';
+import { ShippingAddressModule } from './shipping-address/shipping-address.module';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot(
@@ -20,7 +23,9 @@ import { OrderModule } from './order/order.module';
     ),
     ProductModule,
     MediaModule,
-    OrderModule],
+    OrderModule,
+    CustomerModule,
+    ShippingAddressModule],
   controllers: [],
   providers: [],
 })
