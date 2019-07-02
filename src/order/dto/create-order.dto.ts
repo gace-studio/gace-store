@@ -6,4 +6,22 @@ export class CreateOrderDto {
     type: [OrderDetailDto],
   })
   orderDetails: OrderDetailDto[];
+
+  @ApiModelProperty()
+  customer: string;
+
+  @ApiModelProperty()
+  phone: string;
+
+  @ApiModelProperty()
+  address: string;
+
+  @ApiModelProperty()
+  ward?: string;
+
+  @ApiModelProperty()
+  district: string;
+
+  @ApiModelProperty()
+  province: string;
 }

@@ -1,5 +1,4 @@
 import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
-import { ShippingAddress } from 'src/shipping-address/shipping-address.entity';
 @Entity()
 export class Customer {
   @PrimaryGeneratedColumn()
@@ -15,9 +14,12 @@ export class Customer {
   })
   phone: string;
 
+  @Column()
   email: string;
 
-  @OneToOne(type => ShippingAddress)
-  @JoinColumn()
-  addresses: ShippingAddress;
+  constructor(customer: any = {}) {
+    this.fullname = customer.fullname;
+    this.email = customer.email;
+    this.phone = customer.phone;
+  }
 }

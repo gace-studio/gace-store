@@ -1,7 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { OrderDetail } from './order-detail.entity';
-import { ShippingAddress } from 'src/shipping-address/shipping-address.entity';
-import { Customer } from 'src/customer/customer.entity';
 @Entity()
 export class Order {
   @PrimaryGeneratedColumn()
@@ -15,14 +13,45 @@ export class Order {
   @Column('datetime')
   orderDate: Date;
 
-  @OneToMany(type => OrderDetail, orderDetail => orderDetail.order)
+  @OneToMany(type => OrderDetail, orderDetail => orderDetail.order, {
+    cascade: true,
+  })
   orderDetails: OrderDetail[];
 
-  @OneToOne(type => ShippingAddress)
-  @JoinColumn()
-  shippingAddress: ShippingAddress;
+  @Column({
+    nullable: false,
+  })
+  customer: string;
 
-  @OneToOne(type => Customer)
-  @JoinColumn()
-  customer: Customer;
+  @Column({
+    nullable: false,
+  })
+  phone: string;
+
+  @Column({
+    nullable: false,
+  })
+  province: string;
+
+  @Column({
+    nullable: false,
+  })
+  district: string;
+
+  ward: string;
+
+  @Column({
+    nullable: false,
+  })
+  address: string;
+
+  constructor(order: any = {}) {
+    this.orderDate = order.orderDate || new Date(Date.now());
+    this.status = order.status || 1;
+    this.address = order.address;
+    this.ward = order.ward;
+    this.district = order.district;
+    this.province = order.province;
+    this.customer = order.customer;
+  }
 }

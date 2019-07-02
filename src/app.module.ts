@@ -5,7 +5,6 @@ import { ProductModule } from './product/product.module';
 import { MediaModule } from './media/media.module';
 import { OrderModule } from './order/order.module';
 import { CustomerModule } from './customer/customer.module';
-import { ShippingAddressModule } from './shipping-address/shipping-address.module';
 
 @Module({
   imports: [
@@ -24,8 +23,7 @@ import { ShippingAddressModule } from './shipping-address/shipping-address.modul
     ProductModule,
     MediaModule,
     OrderModule,
-    CustomerModule,
-    ShippingAddressModule],
+    CustomerModule],
   controllers: [],
   providers: [],
 })
