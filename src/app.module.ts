@@ -5,6 +5,7 @@ import { ProductModule } from './product/product.module';
 import { MediaModule } from './media/media.module';
 import { OrderModule } from './order/order.module';
 import { CustomerModule } from './customer/customer.module';
+import { DeliveryModule } from './delivery/delivery.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { CustomerModule } from './customer/customer.module';
     ProductModule,
     MediaModule,
     OrderModule,
-    CustomerModule],
+    CustomerModule,
+    DeliveryModule],
   controllers: [],
   providers: [],
 })

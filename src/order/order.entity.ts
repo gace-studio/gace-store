@@ -1,5 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 import { OrderDetail } from './order-detail.entity';
+import { Delivery } from 'src/delivery/delivery.entity';
+import { Customer } from 'src/customer/customer.entity';
 @Entity()
 export class Order {
   @PrimaryGeneratedColumn()
@@ -18,40 +20,22 @@ export class Order {
   })
   orderDetails: OrderDetail[];
 
-  @Column({
-    nullable: false,
-  })
-  customer: string;
+  @OneToOne(type => Customer)
+  @JoinColumn()
+  customer: Customer;
 
-  @Column({
-    nullable: false,
-  })
-  phone: string;
-
-  @Column({
-    nullable: false,
-  })
-  province: string;
-
-  @Column({
-    nullable: false,
-  })
-  district: string;
-
-  ward: string;
-
-  @Column({
-    nullable: false,
-  })
-  address: string;
+  @OneToOne(type => Delivery, delivery => delivery.order)
+  delivery: Delivery;
 
   constructor(order: any = {}) {
     this.orderDate = order.orderDate || new Date(Date.now());
     this.status = order.status || 1;
-    this.address = order.address;
-    this.ward = order.ward;
-    this.district = order.district;
-    this.province = order.province;
-    this.customer = order.customer;
   }
+}
+
+export interface IOrder {
+  status: number;
+  orderDate: Date;
+  orderDetails?: OrderDetail[];
+  customer: string;
 }

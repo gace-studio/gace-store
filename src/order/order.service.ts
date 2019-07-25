@@ -7,7 +7,6 @@ import { OrderDetail } from './order-detail.entity';
 import { Product } from '../product/product.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { Customer } from '../customer/customer.entity';
-import { async } from 'rxjs/internal/scheduler/async';
 @Injectable()
 export class OrderService {
 
@@ -34,7 +33,16 @@ export class OrderService {
   async create(createOrderDto: CreateOrderDto) {
     const customer = await this.customerRepository.findOne({ phone: createOrderDto.phone });
     if (!customer) {
-      await this.customerRepository.save(new Customer({ fullname: createOrderDto.customer, phone: createOrderDto.phone }));
+      await this.customerRepository.save(
+        new Customer({
+          fullname: createOrderDto.customer,
+          phone: createOrderDto.phone,
+          address: createOrderDto.address,
+          district: createOrderDto.district,
+          province: createOrderDto.province,
+          ward: createOrderDto.ward,
+        }),
+      );
     }
     const order = new Order({
       customer: createOrderDto.customer,
