@@ -11,6 +11,12 @@ export class Media {
   @Column()
   path: string;
 
+  @Column()
+  filename: string;
+
+  @Column()
+  mimetype: string;
+
   @Column('int', {
     default: 0,
   })

@@ -8,7 +8,7 @@ export class CreateOrderDto {
   orderDetails: OrderDetailDto[];
 
   @ApiModelProperty()
-  customer: string;
+  customerName: string;
 
   @ApiModelProperty()
   phone: string;
@@ -24,4 +24,7 @@ export class CreateOrderDto {
 
   @ApiModelProperty()
   province: string;
+
+  @ApiModelProperty()
+  deliveryName: string;
 }

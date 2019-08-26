@@ -4,6 +4,10 @@ export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({
+    nullable: false,
+    unique: true,
+  })
   sku: string;
 
   @Column({

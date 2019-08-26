@@ -14,7 +14,7 @@ export class CreateProductDto {
   capitalCost?: number;
 
   @ApiModelProperty()
-  stock?: number;
+  inStock?: number;
 
   @ApiModelProperty()
   status?: number;

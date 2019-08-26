@@ -5,7 +5,6 @@ import { ProductModule } from './product/product.module';
 import { MediaModule } from './media/media.module';
 import { OrderModule } from './order/order.module';
 import { CustomerModule } from './customer/customer.module';
-import { DeliveryModule } from './delivery/delivery.module';
 
 @Module({
   imports: [
@@ -15,7 +14,7 @@ import { DeliveryModule } from './delivery/delivery.module';
         host: 'localhost',
         port: 3306,
         username: 'root',
-        password: null,
+        password: 'root',
         database: 'gacestore',
         entities: [join(__dirname, '**/**.entity{.ts,.js}')],
         synchronize: true,
@@ -24,8 +23,7 @@ import { DeliveryModule } from './delivery/delivery.module';
     ProductModule,
     MediaModule,
     OrderModule,
-    CustomerModule,
-    DeliveryModule],
+    CustomerModule],
   controllers: [],
   providers: [],
 })

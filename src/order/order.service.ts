@@ -31,11 +31,11 @@ export class OrderService {
     return orders;
   }
   async create(createOrderDto: CreateOrderDto) {
-    const customer = await this.customerRepository.findOne({ phone: createOrderDto.phone });
+    let customer = await this.customerRepository.findOne({ phone: createOrderDto.phone });
     if (!customer) {
-      await this.customerRepository.save(
+      customer = await this.customerRepository.save(
         new Customer({
-          fullname: createOrderDto.customer,
+          fullname: createOrderDto.customerName,
           phone: createOrderDto.phone,
           address: createOrderDto.address,
           district: createOrderDto.district,
@@ -44,15 +44,7 @@ export class OrderService {
         }),
       );
     }
-    const order = new Order({
-      customer: createOrderDto.customer,
-      phone: createOrderDto.phone,
-      address: createOrderDto.address,
-      ward: createOrderDto.ward,
-      district: createOrderDto.district,
-      province: createOrderDto.province,
-    });
-    order.orderDetails = await Promise.all(createOrderDto.orderDetails.map(async i => {
+    const orderDetails = await Promise.all(createOrderDto.orderDetails.map(async i => {
       try {
         let price = i.price;
         let capitalCost = i.capitalCost;
@@ -66,12 +58,24 @@ export class OrderService {
         orderDetail.price = price;
         orderDetail.product = { id: i.productId } as any;
         orderDetail.quantity = i.quantity;
-        return await this.orderDetailRepository.create(orderDetail);
+        return this.orderDetailRepository.save(orderDetail);
       } catch (err) {
         throw err;
       }
     }));
-    return await this.orderRepository.save(order);
+    let order = this.orderRepository.create({
+      customer: {id: customer.id},
+      orderDetails,
+      address: createOrderDto.address,
+      customerName: createOrderDto.customerName,
+      district: createOrderDto.district,
+      province: createOrderDto.province,
+      phone: createOrderDto.phone,
+      ward: createOrderDto.ward,
+      deliveryName: createOrderDto.deliveryName,
+    });
+    order = await this.orderRepository.save(order);
+    return order;
   }
 
 }

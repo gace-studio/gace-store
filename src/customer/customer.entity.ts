@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Order } from './../order/order.entity';
 @Entity()
 export class Customer {
   @PrimaryGeneratedColumn()
@@ -34,9 +35,13 @@ export class Customer {
   })
   address: string;
 
+  @OneToMany(type => Order, order => order.customer)
+  orders: Order[];
+
   constructor(customer: ICustomer) {
+    if (!customer) { return; }
     this.fullname = customer.fullname;
-    this.email = customer.email;
+    this.email = customer.email || '';
     this.phone = customer.phone;
     this.address = customer.address;
     this.ward = customer.ward;

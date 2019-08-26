@@ -1,7 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToOne, CreateDateColumn } from 'typeorm';
 import { OrderDetail } from './order-detail.entity';
-import { Delivery } from 'src/delivery/delivery.entity';
-import { Customer } from 'src/customer/customer.entity';
+import { Customer } from './../customer/customer.entity';
 @Entity()
 export class Order {
   @PrimaryGeneratedColumn()
@@ -12,30 +11,57 @@ export class Order {
   })
   status: number;
 
-  @Column('datetime')
+  @CreateDateColumn()
   orderDate: Date;
 
-  @OneToMany(type => OrderDetail, orderDetail => orderDetail.order, {
-    cascade: true,
-  })
+  @OneToMany(type => OrderDetail, orderDetail => orderDetail.order)
   orderDetails: OrderDetail[];
 
-  @OneToOne(type => Customer)
-  @JoinColumn()
+  @ManyToOne(type => Customer, c => c.orders)
   customer: Customer;
 
-  @OneToOne(type => Delivery, delivery => delivery.order)
-  delivery: Delivery;
+  @Column({
+    nullable: false,
+  })
+  deliveryName: string;
 
-  constructor(order: any = {}) {
-    this.orderDate = order.orderDate || new Date(Date.now());
-    this.status = order.status || 1;
-  }
+  @Column()
+  customerName: string;
+
+  @Column({
+    nullable: false,
+  })
+  phone: string;
+
+  @Column({
+    nullable: false,
+  })
+  province: string;
+
+  @Column({
+    nullable: false,
+  })
+  district: string;
+
+  @Column()
+  ward: string;
+
+  @Column({
+    nullable: false,
+  })
+  address: string;
 }
 
 export interface IOrder {
-  status: number;
-  orderDate: Date;
+  status?: number;
+  orderDate?: Date;
+  customer?: Customer;
   orderDetails?: OrderDetail[];
-  customer: string;
+  deliveryName?: string;
+  customerName?: string;
+  phone: string;
+  province: string;
+  district: string;
+  ward?: string;
+  address: string;
 }
